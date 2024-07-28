@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+
 import {motion} from "framer-motion"
 import { slideInFromLeft, slideInFromRight, slideInFromTop } from '@/app/utils/motion'
 import { SparklesIcon } from '@heroicons/react/24/solid'
@@ -38,20 +38,20 @@ export default function Herocontent() {
         
         </motion.div>
         <motion.p
-         variant={slideInFromLeft(0.8)}
+         variants={slideInFromLeft(0.8)}
          className="text-lg text-gray-400 my-5 max-w-[600px]"
         >
           I am full Stack Software Engineer with experience in websitie,
           Mobile, and Software development. Check out my projects and skills.
         </motion.p>
         <motion.a
-         variant={slideInFromLeft(1)}
+         variants={slideInFromLeft(1)}
          className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]">
           Learn More!
          </motion.a>
     </div>
     <motion.div 
-     variant={slideInFromRight(0.8)}
+     variants={slideInFromRight(0.8)}
      className="w-full h-full flex justify-center items-center"
     >
       <Image
