@@ -41,7 +41,7 @@ export default function Herocontent() {
          variant={slideInFromLeft(0.8)}
          className="text-lg text-gray-400 my-5 max-w-[600px]"
         >
-          I&apos; am full Stack Software Engineer with experience in websitie,
+          I am full Stack Software Engineer with experience in websitie,
           Mobile, and Software development. Check out my projects and skills.
         </motion.p>
         <motion.a
