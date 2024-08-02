@@ -11,7 +11,7 @@ const About = () => {
         <div className="relative mt-5 z-1 w-auto bg-gradient-to-r from-purple-500 to-cyan-500  rounded-lg shadow-lg border border-[#2A0E61]" >
     <div className='overflow-hidden'>
     <div className='flex flex-col gap-y-3 rounded-full mt-4 p-4'>
-    <Image src="/huzaifa.png" width={300} height={300} alt='huzaifa' className='rounded-full border shadow-lg border-blue-900'/>
+    <Image src="/huzaifa.png" width={300} height={300} alt='huzaifa abdurahman' className='rounded-full border shadow-lg border-blue-900'/>
     </div>
     <div className='flex flex-col justify-center items-center text-white font-bold font-mono text-2xl p-6'>
         <h2>CEO Huzaifa Abdurahman</h2>
