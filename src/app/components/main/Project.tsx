@@ -15,6 +15,7 @@ const Projects = () => {
           src="/NextWebsite.png"
           title="Modern Next.js Portfolio"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          linked="https://huzaifa-abdurahman.github.io/Responsiv-Portfolio-in-html-and-css/"
         />
         <ProjectCard
           src="/CardImage.png"
