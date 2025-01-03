@@ -7,7 +7,7 @@ interface Props {
   description: string;
 }
 
-const ProjectCard = ({ src, title, description }: Props) => {
+const ProjectCard = ({ src, title, description,linked }: Props) => {
   return (
     <div className="relative overflow-hidden rounded-lg shadow-lg border border-[#2A0E61]">
       <Image
@@ -21,7 +21,7 @@ const ProjectCard = ({ src, title, description }: Props) => {
       <div className="relative p-4">
         <h1 className="text-2xl font-semibold text-white">{title}</h1>
         <p className="mt-2 text-gray-300">{description}</p>
-            <Link href="https://huzaifa-abdurahman.github.io/Responsiv-Portfolio-in-html-and-css/">
+            <Link href="{linked}">
       <a>
         <button className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out">
           Demo
