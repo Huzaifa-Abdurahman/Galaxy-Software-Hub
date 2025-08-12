@@ -121,10 +121,10 @@ export default function ReviewsCarousel() {
               <span>Client Testimonials</span>
               <Sparkles className="w-4 h-4" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               What Our Clients Say
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Don't just take our word for it. Here's what our satisfied clients have to say about their experience with Galaxy Software Hub.
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function ReviewsCarousel() {
                       </div>
 
                       {/* Review Text */}
-                      <blockquote className="text-xl md:text-2xl text-gray-700 mb-8 italic leading-relaxed font-medium">
+                      <blockquote className="text-xl md:text-2xl text-white mb-8 italic leading-relaxed font-medium">
                         "{review.review}"
                       </blockquote>
 
@@ -185,10 +185,10 @@ export default function ReviewsCarousel() {
                           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-20 blur-xl"></div>
                         </div>
                         <div className="text-left">
-                          <h4 className="font-bold text-gray-800 text-xl mb-1">
+                          <h4 className="font-bold text-white text-xl mb-1">
                             {review.name}
                           </h4>
-                          <p className="text-gray-600 text-sm font-medium">
+                          <p className="text-gray-300 text-sm font-medium">
                             {review.role}
                           </p>
                         </div>
@@ -237,7 +237,7 @@ export default function ReviewsCarousel() {
                     </div>
 
                     {/* Review Text */}
-                    <blockquote className="text-sm text-gray-700 mb-4 italic line-clamp-3 leading-relaxed">
+                    <blockquote className="text-sm text-white mb-4 italic line-clamp-3 leading-relaxed">
                       "{review.review}"
                     </blockquote>
 
@@ -258,10 +258,10 @@ export default function ReviewsCarousel() {
                         />
                       </div>
                       <div className="text-left">
-                        <h5 className="font-semibold text-gray-800 text-sm">
+                        <h5 className="font-semibold text-white text-sm">
                           {review.name}
                         </h5>
-                        <p className="text-gray-600 text-xs">
+                        <p className="text-gray-300 text-xs">
                           {review.role}
                         </p>
                       </div>
@@ -280,7 +280,7 @@ export default function ReviewsCarousel() {
               <div className="flex space-x-1">
                 {renderStars(5)}
               </div>
-              <span className="text-gray-700 font-bold text-lg">
+              <span className="text-white font-bold text-lg">
                 4.9/5 Average Rating
               </span>
               <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">

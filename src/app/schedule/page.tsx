@@ -99,10 +99,10 @@ export default function Schedule() {
             {/* Form */}
             <FadeIn>
               <div className="light-gradient-card p-8 rounded-2xl">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Book Your Consultation</h2>
+                <h2 className="text-3xl font-bold text-gray-200 mb-6">Book Your Consultation</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Full Name *</label>
+                    <label className="block text-gray-400 font-semibold mb-2">Full Name *</label>
                     <input
                       type="text"
                       name="name"
@@ -122,7 +122,7 @@ export default function Schedule() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -134,7 +134,7 @@ export default function Schedule() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                       placeholder="Your phone number"
                     />
                   </div>
@@ -161,7 +161,7 @@ export default function Schedule() {
                         onChange={handleChange}
                         required
                         min={new Date().toISOString().split('T')[0]}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                        className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                       />
                     </div>
                     <div>
@@ -172,7 +172,7 @@ export default function Schedule() {
                         value={formData.time}
                         onChange={handleChange}
                         required
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                        className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -183,7 +183,7 @@ export default function Schedule() {
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
                     >
                       <option value="">Select a service</option>
                       <option value="web-development">Web Development</option>
@@ -251,8 +251,8 @@ export default function Schedule() {
             <FadeIn delay={0.2}>
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-6">Get in Touch</h2>
-                  <p className="text-gray-600 mb-8">
+                  <h2 className="text-3xl font-bold text-gray-400 mb-6">Get in Touch</h2>
+                  <p className="text-gray-500 mb-8">
                     Schedule a free consultation to discuss your project requirements and get a custom quote from our expert team.
                   </p>
                 </div>

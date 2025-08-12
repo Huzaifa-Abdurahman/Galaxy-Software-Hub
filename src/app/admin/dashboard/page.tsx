@@ -9,12 +9,15 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
+  const [formImageError, setFormImageError] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     excerpt: '',
     slug: '',
     author: 'Galaxy Team',
+    image: '',
     published: true
   });
 
@@ -32,6 +35,14 @@ export default function AdminDashboard() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleImageError = (blogId: string) => {
+    setImageErrors(prev => ({ ...prev, [blogId]: true }));
+  };
+
+  const handleFormImageError = () => {
+    setFormImageError(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,8 +91,10 @@ export default function AdminDashboard() {
       excerpt: blog.excerpt,
       slug: blog.slug,
       author: blog.author,
+      image: blog.image,
       published: blog.published
     });
+    setFormImageError(false);
     setShowForm(true);
   };
 
@@ -92,9 +105,11 @@ export default function AdminDashboard() {
       excerpt: '',
       slug: '',
       author: 'Galaxy Team',
+      image: '',
       published: true
     });
     setEditingBlog(null);
+    setFormImageError(false);
     setShowForm(false);
   };
 
@@ -120,14 +135,14 @@ export default function AdminDashboard() {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setShowForm(true)}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-purple-700 transition-colors"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              <Plus className="h-4 w-4" />
-              <span>New Blog</span>
+              <Plus className="h-5 w-5" />
+              <span className="font-semibold">Add New Blog</span>
             </button>
             <button
               onClick={logout}
-              className="text-gray-600 hover:text-gray-800 transition-colors"
+              className="text-gray-600 hover:text-gray-800 transition-colors px-4 py-2 rounded-lg hover:bg-gray-100"
             >
               Logout
             </button>
@@ -136,6 +151,25 @@ export default function AdminDashboard() {
       </header>
 
       <div className="container mx-auto px-6 py-8">
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Quick Actions</h2>
+                <p className="text-gray-600">Manage your blog content and website</p>
+              </div>
+              <button
+                onClick={() => setShowForm(true)}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                <Plus className="h-5 w-5" />
+                <span className="font-semibold">Add New Blog</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Blog List */}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="p-6 border-b">
@@ -145,6 +179,7 @@ export default function AdminDashboard() {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -155,6 +190,22 @@ export default function AdminDashboard() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {blogs.map((blog) => (
                   <tr key={blog.id}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {blog.image && !imageErrors[blog.id] ? (
+                        <div className="w-16 h-12 rounded-lg overflow-hidden bg-gray-100">
+                          <img
+                            src={blog.image}
+                            alt={blog.title}
+                            className="w-full h-full object-cover"
+                            onError={() => handleImageError(blog.id)}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">No Image</span>
+                        </div>
+                      )}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{blog.title}</div>
                       <div className="text-sm text-gray-500">{blog.excerpt}</div>
@@ -264,6 +315,40 @@ export default function AdminDashboard() {
                   onChange={(e) => setFormData({...formData, author: e.target.value})}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
                 />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2">Image URL</label>
+                <input
+                  type="text"
+                  value={formData.image}
+                  onChange={(e) => {
+                    setFormData({...formData, image: e.target.value});
+                    setFormImageError(false);
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+                  placeholder="Enter image URL (optional)"
+                />
+                {formData.image && !formImageError && (
+                  <div className="mt-3">
+                    <label className="block text-gray-700 font-semibold mb-2">Image Preview</label>
+                    <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+                      <img
+                        src={formData.image}
+                        alt="Blog preview"
+                        className="w-full h-full object-cover"
+                        onError={handleFormImageError}
+                      />
+                    </div>
+                  </div>
+                )}
+                {formData.image && formImageError && (
+                  <div className="mt-3">
+                    <label className="block text-gray-700 font-semibold mb-2">Image Preview</label>
+                    <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                      <div className="text-gray-500">Invalid image URL</div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex items-center">
                 <input

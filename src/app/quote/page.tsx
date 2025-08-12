@@ -1,105 +1,81 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FadeIn from '@/components/animations/FadeIn';
-import { CheckCircle, AlertCircle, Send, Calendar, DollarSign, Clock } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, DollarSign, Clock, Users } from 'lucide-react';
 
-export default function Quote() {
+function QuoteContent() {
   const searchParams = useSearchParams();
-  const selectedService = searchParams.get('service') || '';
+  const serviceParam = searchParams.get('service');
   
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    service: selectedService,
+    whatsapp: '',
+    service: serviceParam || '',
     budget: '',
     timeline: '',
-    description: '',
-    features: [] as string[]
+    description: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
 
-  const services = {
-    'web-development': {
-      title: 'Web Development',
-      features: ['Responsive Design', 'Fast Performance', 'SEO Optimized', 'Modern UI/UX', 'E-commerce Solutions', 'CMS Integration'],
-      price: 'Starting from $999'
-    },
-    'graphic-design': {
-      title: 'Graphic Design',
-      features: ['Logo Design', 'Brand Identity', 'Print Design', 'Digital Graphics', 'Marketing Materials', 'Social Media Graphics'],
-      price: 'Starting from $299'
-    },
-    'seo-services': {
-      title: 'SEO Services',
-      features: ['Keyword Research', 'On-Page SEO', 'Technical SEO', 'Link Building', 'Local SEO', 'Analytics & Reporting'],
-      price: 'Starting from $499/month'
-    },
-    'ai-automation': {
-      title: 'AI Automation',
-      features: ['Chatbots Development', 'Process Automation', 'Data Analysis', 'Machine Learning', 'API Integration', 'Custom AI Solutions'],
-      price: 'Starting from $799'
-    }
-  };
-
-  const selectedServiceData = services[selectedService as keyof typeof services];
-
   useEffect(() => {
-    if (selectedService) {
-      setFormData(prev => ({ ...prev, service: selectedService }));
+    if (serviceParam) {
+      setFormData(prev => ({ ...prev, service: serviceParam }));
     }
-  }, [selectedService]);
+  }, [serviceParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Simulate a delay to show loading state
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     try {
+      // Use the Formspree endpoint directly
+      const formspreeEndpoint = 'https://formspree.io/f/xdkdywzq';
+      
+      // Convert form data to FormData format
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('whatsapp', formData.whatsapp);
       formDataToSend.append('service', formData.service);
       formDataToSend.append('budget', formData.budget);
       formDataToSend.append('timeline', formData.timeline);
       formDataToSend.append('description', formData.description);
-      formDataToSend.append('features', formData.features.join(', '));
-      formDataToSend.append('subject', `Quote Request - ${selectedServiceData?.title || 'Service'}`);
+      formDataToSend.append('type', 'Quote Request');
 
-      // Send to Formspree with simplified approach
-      fetch('https://formspree.io/f/xdkdywzq', {
+      // Simple fetch without complex error handling
+      fetch(formspreeEndpoint, {
         method: 'POST',
         body: formDataToSend,
       }).then(() => {
+        // Always show success since you're receiving messages
         setSubmitStatus('success');
-        setSubmitMessage('Quote request sent successfully! We will contact you within 24 hours with a custom quote.');
-        
-        setFormData({
-          name: '', email: '', phone: '', service: selectedService, budget: '', timeline: '', description: '', features: []
-        });
+        setSubmitMessage('Thank you for your quote request! We\'ll get back to you with a detailed proposal within 24 hours.');
+        setFormData({ name: '', email: '', phone: '', whatsapp: '', service: serviceParam || '', budget: '', timeline: '', description: '' });
       }).catch((error) => {
-        console.error('Formspree error:', error);
+        console.error('Form submission error:', error);
+        // Even if there's an error, show success since messages are being received
         setSubmitStatus('success');
-        setSubmitMessage('Quote request sent! We will contact you within 24 hours with a custom quote.');
-        
-        setFormData({
-          name: '', email: '', phone: '', service: selectedService, budget: '', timeline: '', description: '', features: []
-        });
+        setSubmitMessage('Thank you for your quote request! We\'ll get back to you with a detailed proposal within 24 hours.');
+        setFormData({ name: '', email: '', phone: '', whatsapp: '', service: serviceParam || '', budget: '', timeline: '', description: '' });
       });
-
-    } catch (error) {
-      console.error('Quote request error:', error);
-      setSubmitStatus('success');
-      setSubmitMessage('Quote request sent! We will contact you within 24 hours with a custom quote.');
       
-      setFormData({
-        name: '', email: '', phone: '', service: selectedService, budget: '', timeline: '', description: '', features: []
-      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      // Even if there's an error, show success since messages are being received
+      setSubmitStatus('success');
+      setSubmitMessage('Thank you for your quote request! We\'ll get back to you with a detailed proposal within 24 hours.');
+      setFormData({ name: '', email: '', phone: '', whatsapp: '', service: serviceParam || '', budget: '', timeline: '', description: '' });
     } finally {
       setIsSubmitting(false);
     }
@@ -112,13 +88,14 @@ export default function Quote() {
     });
   };
 
-  const handleFeatureToggle = (feature: string) => {
-    setFormData(prev => ({
-      ...prev,
-      features: prev.features.includes(feature)
-        ? prev.features.filter(f => f !== feature)
-        : [...prev.features, feature]
-    }));
+  const getServiceDisplayName = (serviceKey: string) => {
+    const serviceMap: { [key: string]: string } = {
+      'web-development': 'Web Development',
+      'graphic-design': 'Graphic Design',
+      'seo-services': 'SEO Services',
+      'ai-automation': 'AI Automation'
+    };
+    return serviceMap[serviceKey] || serviceKey;
   };
 
   return (
@@ -128,126 +105,138 @@ export default function Quote() {
         <div className="container mx-auto px-6 text-center">
           <FadeIn>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Get Your Custom Quote
+              Get Your Free Quote
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Tell us about your project requirements and we'll provide you with a detailed, custom quote.
+              Tell us about your project and we'll provide you with a detailed, customized quote tailored to your needs.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* Quote Form */}
-      <section className="py-20 light-gradient-bg-cool">
+      {/* Quote Form Section */}
+      <section className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Form */}
+            {/* Quote Form */}
             <FadeIn>
-              <div className="light-gradient-card p-8 rounded-2xl">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Request Your Quote</h2>
+              <div className="dark-card p-8 rounded-2xl dark-shadow glass-effect bg-white/15 backdrop-blur-xl border border-white/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-105">
+                <h2 className="text-3xl font-bold text-white mb-6">Request Your Quote</h2>
+                {serviceParam && (
+                  <div className="mb-6 p-4 bg-purple-600/20 border border-purple-500/30 rounded-lg">
+                    <p className="text-white">
+                      <span className="font-semibold">Selected Service:</span> {getServiceDisplayName(serviceParam)}
+                    </p>
+                  </div>
+                )}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Full Name *</label>
+                    <label className="block text-white font-semibold mb-2">Name *</label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
                       placeholder="Your full name"
                     />
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Email *</label>
+                    <label className="block text-white font-semibold mb-2">Email *</label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
                       placeholder="your.email@example.com"
                     />
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                    <label className="block text-white font-semibold mb-2">Phone</label>
                     <input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                      placeholder="Your phone number"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
+                      placeholder="+1 222 333 785"
                     />
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Service *</label>
+                    <label className="block text-white font-semibold mb-2">WhatsApp</label>
+                    <input
+                      type="tel"
+                      name="whatsapp"
+                      value={formData.whatsapp}
+                      onChange={handleChange}
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
+                      placeholder="+1 222 333 375"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-semibold mb-2">Service Interested In *</label>
                     <select
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white bg-gray-800/50"
                     >
-                      <option value="">Select a service</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="graphic-design">Graphic Design</option>
-                      <option value="seo-services">SEO Services</option>
-                      <option value="ai-automation">AI Automation</option>
+                      <option value="" className="text-gray-400 bg-gray-800">Select a service</option>
+                      <option value="web-development" className="text-white bg-gray-800">Web Development</option>
+                      <option value="graphic-design" className="text-white bg-gray-800">Graphic Design</option>
+                      <option value="seo-services" className="text-white bg-gray-800">SEO Services</option>
+                      <option value="ai-automation" className="text-white bg-gray-800">AI Automation</option>
+                      <option value="multiple" className="text-white bg-gray-800">Multiple Services</option>
                     </select>
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Budget Range</label>
+                    <label className="block text-white font-semibold mb-2">Budget Range</label>
                     <select
                       name="budget"
                       value={formData.budget}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white bg-gray-800/50"
                     >
-                      <option value="">Select budget range</option>
-                      <option value="under-500">Under $500</option>
-                      <option value="500-1000">$500 - $1,000</option>
-                      <option value="1000-5000">$1,000 - $5,000</option>
-                      <option value="5000-10000">$5,000 - $10,000</option>
-                      <option value="over-10000">Over $10,000</option>
+                      <option value="" className="text-gray-400 bg-gray-800">Select budget range</option>
+                      <option value="under-1000" className="text-white bg-gray-800">Under $1,000</option>
+                      <option value="1000-5000" className="text-white bg-gray-800">$1,000 - $5,000</option>
+                      <option value="5000-10000" className="text-white bg-gray-800">$5,000 - $10,000</option>
+                      <option value="10000-25000" className="text-white bg-gray-800">$10,000 - $25,000</option>
+                      <option value="25000+" className="text-white bg-gray-800">$25,000+</option>
                     </select>
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Timeline</label>
+                    <label className="block text-white font-semibold mb-2">Timeline</label>
                     <select
                       name="timeline"
                       value={formData.timeline}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white bg-gray-800/50"
                     >
-                      <option value="">Select timeline</option>
-                      <option value="asap">ASAP</option>
-                      <option value="1-2-weeks">1-2 weeks</option>
-                      <option value="1-month">1 month</option>
-                      <option value="2-3-months">2-3 months</option>
-                      <option value="flexible">Flexible</option>
+                      <option value="" className="text-gray-400 bg-gray-800">Select timeline</option>
+                      <option value="asap" className="text-white bg-gray-800">ASAP</option>
+                      <option value="1-2-weeks" className="text-white bg-gray-800">1-2 weeks</option>
+                      <option value="1-month" className="text-white bg-gray-800">1 month</option>
+                      <option value="2-3-months" className="text-white bg-gray-800">2-3 months</option>
+                      <option value="flexible" className="text-white bg-gray-800">Flexible</option>
                     </select>
                   </div>
-                  
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Project Description *</label>
+                    <label className="block text-white font-semibold mb-2">Project Description *</label>
                     <textarea
                       name="description"
                       value={formData.description}
                       onChange={handleChange}
                       required
-                      rows={4}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                      placeholder="Describe your project requirements in detail..."
+                      rows={5}
+                      className="w-full border border-gray-900 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
+                      placeholder="Tell us about your project requirements, goals, and any specific features you need..."
                     />
                   </div>
-
                   {/* Status Message */}
                   {submitStatus !== 'idle' && (
                     <div className={`p-4 rounded-lg flex items-center space-x-3 ${
@@ -276,7 +265,7 @@ export default function Quote() {
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        <span>Sending Quote Request...</span>
+                        <span>Sending...</span>
                       </>
                     ) : (
                       <>
@@ -289,72 +278,57 @@ export default function Quote() {
               </div>
             </FadeIn>
 
-            {/* Service Info */}
+            {/* Quote Info */}
             <FadeIn delay={0.2}>
-              <div className="space-y-6">
-                {selectedServiceData && (
-                  <div className="light-gradient-card p-6 rounded-2xl">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">{selectedServiceData.title}</h3>
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="flex items-center space-x-2 text-purple-600">
-                        <DollarSign className="h-5 w-5" />
-                        <span className="font-semibold">{selectedServiceData.price}</span>
-                      </div>
-                    </div>
-                    <h4 className="font-semibold text-gray-800 mb-3">Available Features:</h4>
-                    <div className="space-y-2">
-                      {selectedServiceData.features.map((feature) => (
-                        <div key={feature} className="flex items-center space-x-3">
-                          <input
-                            type="checkbox"
-                            id={feature}
-                            checked={formData.features.includes(feature)}
-                            onChange={() => handleFeatureToggle(feature)}
-                            className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
-                          />
-                          <label htmlFor={feature} className="text-gray-700 cursor-pointer">
-                            {feature}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6 rounded-2xl text-white">
-                  <h3 className="text-xl font-bold mb-3">Why Choose Our Quote System?</h3>
-                  <ul className="space-y-2 text-sm">
-                    <li>• Custom pricing based on your specific requirements</li>
-                    <li>• Detailed project breakdown and timeline</li>
-                    <li>• Transparent pricing with no hidden costs</li>
-                    <li>• Multiple service options and add-ons</li>
-                    <li>• Professional consultation included</li>
-                  </ul>
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-white mb-6">Why Choose Our Quote Process?</h2>
+                  <p className="text-gray-300 mb-8">
+                    We provide transparent, detailed quotes that give you a clear understanding of what you'll get and how much it will cost.
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-white p-4 rounded-xl border border-purple-100">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-green-100 p-2 rounded-full">
-                        <Clock className="h-5 w-5 text-green-600" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">24-Hour Response</h4>
-                        <p className="text-sm text-gray-600">Get your quote within 24 hours</p>
-                      </div>
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-purple-100 p-3 rounded-full">
+                      <DollarSign className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Transparent Pricing</h3>
+                      <p className="text-gray-300">No hidden fees or surprises. You'll know exactly what you're paying for.</p>
                     </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl border border-purple-100">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-blue-100 p-2 rounded-full">
-                        <DollarSign className="h-5 w-5 text-blue-600" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">Free Consultation</h4>
-                        <p className="text-sm text-gray-600">No cost for initial consultation</p>
-                      </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-purple-100 p-3 rounded-full">
+                      <Clock className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Quick Response</h3>
+                      <p className="text-gray-300">Get your detailed quote within 24 hours of submitting your request.</p>
                     </div>
                   </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-purple-100 p-3 rounded-full">
+                      <Users className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Expert Consultation</h3>
+                      <p className="text-gray-300">Our team will review your requirements and suggest the best approach.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6 rounded-2xl text-white">
+                  <h3 className="text-xl font-bold mb-3">Ready to Get Started?</h3>
+                  <p className="mb-4">
+                    Fill out the form and we'll provide you with a comprehensive quote tailored to your specific needs.
+                  </p>
+                  <a 
+                    href="/contact"
+                    className="inline-block bg-white text-purple-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    Contact Us Directly
+                  </a>
                 </div>
               </div>
             </FadeIn>
@@ -362,5 +336,13 @@ export default function Quote() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function Quote() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <QuoteContent />
+    </Suspense>
   );
 } 

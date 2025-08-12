@@ -1,0 +1,25 @@
+{
+  "name": "Galaxy Software Hub - Digital Solutions & AI Automation",
+  "short_name": "Galaxy Software Hub",
+  "description": "Transform your business with our cutting-edge web development, graphic design, SEO services, and AI automation solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f23",
+  "theme_color": "#a855f7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity", "technology"],
+  "lang": "en",
+  "dir": "ltr"
+} 

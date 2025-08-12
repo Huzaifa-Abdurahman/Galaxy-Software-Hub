@@ -8,6 +8,8 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
+    whatsapp: '',
     service: '',
     message: ''
   });
@@ -31,6 +33,8 @@ export default function Contact() {
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('whatsapp', formData.whatsapp);
       formDataToSend.append('service', formData.service);
       formDataToSend.append('message', formData.message);
 
@@ -42,13 +46,13 @@ export default function Contact() {
         // Always show success since you're receiving messages
         setSubmitStatus('success');
         setSubmitMessage('Thank you for your message! We\'ll get back to you soon.');
-        setFormData({ name: '', email: '', service: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', whatsapp: '', service: '', message: '' });
       }).catch((error) => {
         console.error('Form submission error:', error);
         // Even if there's an error, show success since messages are being received
         setSubmitStatus('success');
         setSubmitMessage('Thank you for your message! We\'ll get back to you soon.');
-        setFormData({ name: '', email: '', service: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', whatsapp: '', service: '', message: '' });
       });
       
     } catch (error) {
@@ -56,7 +60,7 @@ export default function Contact() {
       // Even if there's an error, show success since messages are being received
       setSubmitStatus('success');
       setSubmitMessage('Thank you for your message! We\'ll get back to you soon.');
-      setFormData({ name: '', email: '', service: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', whatsapp: '', service: '', message: '' });
     } finally {
       setIsSubmitting(false);
     }
@@ -92,57 +96,79 @@ export default function Contact() {
             {/* Contact Form */}
             <FadeIn>
               <div className="dark-card p-8 rounded-2xl dark-shadow glass-effect bg-white/15 backdrop-blur-xl border border-white/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-105">
-                <h2 className="text-3xl font-bold tex-gray-900 mb-6">Send us a Message</h2>
+                <h2 className="text-3xl font-bold text-white mb-6">Send us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block dark-text font-semibold mb-2">Name *</label>
+                    <label className="block text-white font-semibold mb-2">Name *</label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-900 font-semibold mb-2">Email *</label>
+                    <label className="block text-white font-semibold mb-2">Email *</label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
                       placeholder="your.email@example.com"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-900 font-semibold mb-2">Service Interested In</label>
+                    <label className="block text-white font-semibold mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
+                      placeholder="+1 222 333 785"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-semibold mb-2">WhatsApp</label>
+                    <input
+                      type="tel"
+                      name="whatsapp"
+                      value={formData.whatsapp}
+                      onChange={handleChange}
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
+                      placeholder="+1 222 333 375"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-semibold mb-2">Service Interested In</label>
                     <select
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
-                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-800 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white bg-gray-800/50"
                     >
-                      <option value="">Select a service</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="graphic-design">Graphic Design</option>
-                      <option value="seo-services">SEO Services</option>
-                      <option value="ai-automation">AI Automation</option>
-                      <option value="multiple">Multiple Services</option>
+                      <option value="" className="text-gray-400 bg-gray-800">Select a service</option>
+                      <option value="web-development" className="text-white bg-gray-800">Web Development</option>
+                      <option value="graphic-design" className="text-white bg-gray-800">Graphic Design</option>
+                      <option value="seo-services" className="text-white bg-gray-800">SEO Services</option>
+                      <option value="ai-automation" className="text-white bg-gray-800">AI Automation</option>
+                      <option value="multiple" className="text-white bg-gray-800">Multiple Services</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-gray-900 font-semibold mb-2">Message *</label>
+                    <label className="block text-white font-semibold mb-2">Message *</label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full border border-gray-900 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                      className="w-full border border-gray-900 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-400 bg-gray-800/50"
                       placeholder="Tell us about your project..."
                     />
                   </div>
@@ -178,8 +204,8 @@ export default function Contact() {
                       </>
                     ) : (
                       <>
-                        <Send className="h-5 w-5" />
-                        <span>Send Message</span>
+                    <Send className="h-5 w-5" />
+                    <span>Send Message</span>
                       </>
                     )}
                   </button>

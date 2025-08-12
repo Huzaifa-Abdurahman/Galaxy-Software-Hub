@@ -29,7 +29,17 @@ export default function Blog() {
             {blogs.map((blog, index) => (
               <FadeIn key={blog.id} delay={index * 0.1}>
                 <article className="dark-card rounded-2xl overflow-hidden dark-shadow hover:dark-hover transition-all duration-300">
-                  <div className="h-48 bg-gradient-to-br from-purple-400 to-pink-400"></div>
+                  {blog.image ? (
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={blog.image}
+                        alt={blog.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-48 bg-gradient-to-br from-purple-400 to-pink-400"></div>
+                  )}
                   <div className="p-6">
                     <div className="flex items-center space-x-4 text-sm text-white mb-3">
                       <div className="flex items-center space-x-1">

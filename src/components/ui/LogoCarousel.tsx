@@ -55,10 +55,10 @@ export default function LogoCarousel() {
       <div className="container mx-auto px-6 relative z-10">
         <FadeIn>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white-800 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Trusted by Leading Brands
             </h2>
-            <p className="text-lg text-white-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               We've helped businesses of all sizes transform their digital presence and achieve remarkable results.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function LogoCarousel() {
                       />
                     </div>
                     <div className="mt-4 text-center">
-                      <h3 className="text-sm font-semibold text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
+                      <h3 className="text-sm font-semibold text-white group-hover:text-gray-200 transition-colors duration-300">
                         {logo.name}
                       </h3>
                     </div>
@@ -141,7 +141,7 @@ export default function LogoCarousel() {
                       />
                     </div>
                     <div className="mt-4 text-center">
-                      <h3 className="text-sm font-semibold text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
+                      <h3 className="text-sm font-semibold text-white group-hover:text-gray-200 transition-colors duration-300">
                         {logo.name}
                       </h3>
                     </div>
@@ -159,16 +159,16 @@ export default function LogoCarousel() {
         <FadeIn delay={0.5}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">50+</div>
-              <div className="text-gray-600">Happy Clients</div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">50+</div>
+              <div className="text-gray-300">Happy Clients</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">100+</div>
-              <div className="text-gray-600">Projects Completed</div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">100+</div>
+              <div className="text-gray-300">Projects Completed</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
-              <div className="text-gray-600">Client Satisfaction</div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">98%</div>
+              <div className="text-gray-300">Client Satisfaction</div>
             </div>
           </div>
         </FadeIn>

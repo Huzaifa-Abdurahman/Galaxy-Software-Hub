@@ -5,7 +5,7 @@ import ReviewsCarousel from '@/components/ui/ReviewsCarousel';
 
 export default function Home() {
   return (
-    <div className="dark-theme-bg min-h-screen">
+    <div className="relative overflow-x-hidden">
       {/* Giant transparent overlapping bubbles */}
       <div className="giant-bubble giant-bubble-1"></div>
       <div className="giant-bubble giant-bubble-2"></div>
@@ -52,31 +52,37 @@ export default function Home() {
         <div className="container mx-auto px-6 text-center relative z-10">
           <div className="dark-glass dark-card-hover p-12 max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-bold mb-8 dark-heading-primary">
-              Ready to Transform Your Business?
-            </h2>
+            Ready to Transform Your Business?
+          </h2>
             <p className="text-xl dark-text-primary mb-12 max-w-3xl mx-auto leading-relaxed">
               Join hundreds of satisfied clients who have revolutionized their digital presence with our expert solutions. Let's create something extraordinary together.
             </p>
             
             {/* Enhanced CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <button className="dark-btn-primary px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 dark-card-hover group">
+              <a 
+                href="/contact"
+                className="dark-btn-primary px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 dark-card-hover group"
+              >
                 <span className="flex items-center space-x-2">
                   <span>Start Your Project Today</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </span>
-              </button>
+              </a>
               
-              <button className="dark-btn-secondary px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 dark-card-hover group">
+              <a 
+                href="/schedule"
+                className="dark-btn-secondary px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 dark-card-hover group"
+              >
                 <span className="flex items-center space-x-2">
                   <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                   <span>Get Free Consultation</span>
                 </span>
-              </button>
+              </a>
             </div>
 
             {/* Trust indicators */}

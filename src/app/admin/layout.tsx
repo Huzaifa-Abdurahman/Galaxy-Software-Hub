@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function AdminLayout({
   children,
@@ -11,9 +11,18 @@ export default function AdminLayout({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     console.log('Admin layout: Checking authentication...');
+    console.log('Current pathname:', pathname);
+    
+    // Don't check authentication for login page
+    if (pathname === '/admin/login') {
+      console.log('Login page detected, skipping authentication check');
+      setIsLoading(false);
+      return;
+    }
     
     const token = document.cookie
       .split('; ')
@@ -32,7 +41,12 @@ export default function AdminLayout({
     console.log('Token found, setting authenticated');
     setIsAuthenticated(true);
     setIsLoading(false);
-  }, [router]);
+  }, [router, pathname]);
+
+  // Don't show loading or authentication check for login page
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
 
   if (isLoading) {
     return (

@@ -11,10 +11,12 @@ interface AdminPanelProps {
 export default function AdminPanel({ className = '' }: AdminPanelProps) {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all');
+  const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -32,15 +34,78 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
     { label: 'Engagement', value: '8.2%', icon: TrendingUp, color: 'from-pink-500 to-pink-600' },
   ];
 
+  const getCookie = (name: string) => {
+    if (typeof document !== 'undefined') {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(';').shift();
+    }
+    return null;
+  };
+
+  const getToken = () => {
+    return localStorage.getItem('admin_token') || getCookie('admin_token');
+  };
+
   useEffect(() => {
-    fetchBlogs();
+    checkAuth();
   }, []);
+
+  const checkAuth = async () => {
+    const token = getToken();
+    if (token) {
+      setIsAuthenticated(true);
+      await fetchBlogs();
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('admin_token', data.token);
+        setIsAuthenticated(true);
+        await fetchBlogs();
+      } else {
+        alert('Invalid credentials');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Login failed');
+      setIsLoading(false);
+    }
+  };
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch('/api/blogs');
-      const data = await response.json();
-      setBlogs(data);
+      const token = getToken();
+      const response = await fetch('/api/blogs', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setBlogs(data);
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        localStorage.removeItem('admin_token');
+        document.cookie = 'admin_token=; path=/; max-age=0';
+        setIsAuthenticated(false);
+      }
     } catch (error) {
       console.error('Error fetching blogs:', error);
     } finally {
@@ -52,12 +117,16 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
     e.preventDefault();
     
     try {
+      const token = getToken();
       const url = editingBlog ? `/api/blogs/${editingBlog.id}` : '/api/blogs';
       const method = editingBlog ? 'PUT' : 'POST';
       
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
         body: JSON.stringify({
           ...formData,
           slug: formData.slug || formData.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, ''),
@@ -67,9 +136,12 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
       if (response.ok) {
         fetchBlogs();
         resetForm();
+      } else {
+        alert('Error saving blog post');
       }
     } catch (error) {
       console.error('Error saving blog:', error);
+      alert('Error saving blog post');
     }
   };
 
@@ -77,12 +149,21 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
     if (!confirm('Are you sure you want to delete this blog post?')) return;
 
     try {
-      const response = await fetch(`/api/blogs/${id}`, { method: 'DELETE' });
+      const token = getToken();
+      const response = await fetch(`/api/blogs/${id}`, { 
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
       if (response.ok) {
         fetchBlogs();
+      } else {
+        alert('Error deleting blog post');
       }
     } catch (error) {
       console.error('Error deleting blog:', error);
+      alert('Error deleting blog post');
     }
   };
 
@@ -112,6 +193,13 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
     setShowForm(false);
   };
 
+  const logout = () => {
+    localStorage.removeItem('admin_token');
+    document.cookie = 'admin_token=; path=/; max-age=0';
+    setIsAuthenticated(false);
+    setBlogs([]);
+  };
+
   const filteredBlogs = blogs.filter(blog => {
     const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
@@ -121,6 +209,57 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
     return matchesSearch && matchesFilter;
   });
 
+  // Login Form
+  if (!isAuthenticated) {
+    return (
+      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${className}`}>
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800">Admin Login</h2>
+            <p className="text-gray-600 mt-2">Sign in to manage your blog</p>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">Username</label>
+              <input
+                type="text"
+                value={loginData.username}
+                onChange={(e) => setLoginData(prev => ({ ...prev, username: e.target.value }))}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="Enter your username"
+                required
+                disabled={isLoading}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">Password</label>
+              <input
+                type="password"
+                value={loginData.password}
+                onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="Enter your password"
+                required
+                disabled={isLoading}
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state
   if (isLoading) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${className}`}>
@@ -139,13 +278,21 @@ export default function AdminPanel({ className = '' }: AdminPanelProps) {
               <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
               <p className="text-gray-600 mt-1">Manage your blog posts and content</p>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full flex items-center space-x-2 hover:shadow-lg transition-all duration-300 card-hover"
-            >
-              <Plus className="h-5 w-5" />
-              <span>New Blog Post</span>
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowForm(true)}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full flex items-center space-x-2 hover:shadow-lg transition-all duration-300 card-hover"
+              >
+                <Plus className="h-5 w-5" />
+                <span>New Blog Post</span>
+              </button>
+              <button
+                onClick={logout}
+                className="text-gray-600 hover:text-gray-800 transition-colors px-4 py-2 rounded-lg hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            </div>
           </div>
 
           {/* Stats Cards */}

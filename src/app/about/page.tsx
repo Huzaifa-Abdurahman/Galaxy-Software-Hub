@@ -70,7 +70,7 @@ export default function About() {
       </section>
 
       {/* CEO Section */}
-      <section className="py-20">
+      <section className="py-20 bubble-gradient-bg">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* CEO Card */}
@@ -98,119 +98,40 @@ export default function About() {
                 <h3 className="text-2xl font-bold text-white mb-2">Huzaifa Abdurahman</h3>
                 <p className="text-purple-400 font-semibold mb-4">CEO & Software Engineer</p>
                 <p className="text-white mb-6">
-                  Visionary leader and full-stack developer with expertise in modern web technologies and business strategy.
+                  Visionary leader and software engineer with a passion for creating innovative digital solutions that transform businesses and drive growth.
                 </p>
                 
-                {/* CEO Links */}
-                <div className="space-y-3">
-                  <a
-                    href="https://huzaifa-abdurahman.github.io/huzaifa/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-semibold text-sm transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    <span>View Portfolio</span>
+                {/* Social Links */}
+                <div className="flex justify-center space-x-4">
+                  <a href="https://linkedin.com/in/huzaifa-abdurahman" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                    <Linkedin className="h-6 w-6" />
                   </a>
-                  
-                  <div className="flex justify-center space-x-3">
-                    <a
-                      href="https://linkedin.com/in/huzaifa-abdurahman"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 transition-colors"
-                    >
-                      <Linkedin className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="https://twitter.com/huzaifa_ceo"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-500 transition-colors"
-                    >
-                      <Twitter className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="https://github.com/huzaifa-dev"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-gray-900 transition-colors"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  </div>
+                  <a href="https://twitter.com/huzaifa_dev" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                    <Twitter className="h-6 w-6" />
+                  </a>
+                  <a href="https://github.com/huzaifa-abdurahman" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300 transition-colors">
+                    <Github className="h-6 w-6" />
+                  </a>
+                  <a href="https://huzaifa-portfolio.com" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300 transition-colors">
+                    <ExternalLink className="h-6 w-6" />
+                  </a>
                 </div>
               </div>
             </FadeIn>
-            
+
             {/* CEO Message */}
             <FadeIn delay={0.2}>
-              <div className="space-y-6">
-                <div>
-                                  <h2 className="text-4xl font-bold text-white mb-6">A Message from Our CEO</h2>
-                <div className="dark-card p-6 rounded-2xl border-l-4 border-purple-500">
-                  <p className="text-white text-lg leading-relaxed mb-4">
-                      "At Galaxy Software Hub, we believe that every business deserves access to world-class digital solutions. 
-                      Our mission is to bridge the gap between innovative technology and business success."
-                    </p>
-                    <p className="text-white text-lg leading-relaxed mb-4">
-                      "With over 5 years of experience and 500+ successful projects, we've helped businesses across various 
-                      industries achieve their digital transformation goals."
-                    </p>
-                    <p className="text-white text-lg leading-relaxed">
-                      "We're committed to providing reliable, innovative, and scalable solutions that help our clients 
-                      stay ahead in the digital landscape."
-                    </p>
-                  </div>
+              <div className="dark-card p-8 rounded-2xl dark-shadow">
+                <div className="flex items-center mb-6">
+                  <Crown className="h-8 w-8 text-yellow-400 mr-3" />
+                  <h3 className="text-2xl font-bold text-white">Message from CEO</h3>
                 </div>
-                
-                {/* Service Features */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="dark-card p-4 rounded-xl dark-border">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-green-100 p-2 rounded-full">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-white">Reliable Service</h4>
-                        <p className="text-sm text-white">99.9% uptime guarantee</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="dark-card p-4 rounded-xl dark-border">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-blue-100 p-2 rounded-full">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">24/7 Support</h4>
-                        <p className="text-sm text-gray-600">Round-the-clock assistance</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="dark-card p-4 rounded-xl dark-border">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-purple-100 p-2 rounded-full">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">Expert Team</h4>
-                        <p className="text-sm text-gray-600">Certified professionals</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white p-4 rounded-xl border border-purple-100">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-orange-100 p-2 rounded-full">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">Fast Delivery</h4>
-                        <p className="text-sm text-gray-600">Quick turnaround times</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <blockquote className="text-white text-lg leading-relaxed italic mb-6">
+                  "At Galaxy Software Hub, we believe that technology should be a catalyst for growth, not a barrier. Our mission is to empower businesses with innovative digital solutions that drive real results. We combine technical excellence with creative vision to deliver solutions that exceed expectations."
+                </blockquote>
+                <p className="text-white">
+                  Every project we undertake is an opportunity to make a meaningful impact. We're not just building websites or applications – we're creating digital experiences that connect, engage, and convert. Our team's passion for innovation and commitment to excellence ensures that every solution we deliver is built to last and designed to perform.
+                </p>
               </div>
             </FadeIn>
           </div>
@@ -218,46 +139,38 @@ export default function About() {
       </section>
 
       {/* Story Section */}
-      <section className="py-20 light-gradient-bg-warm">
+      <section className="py-20">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <FadeIn>
-              <div>
-                <h2 className="text-4xl font-bold text-gray-400 mb-6">Our Story</h2>
-                <p className="text-gray-300 mb-4">
-                  Founded with a vision to bridge the gap between innovative technology and business success, 
-                  Galaxy Software Hub has been at the forefront of digital transformation for over 5 years.
-                </p>
-                <p className="text-gray-300 mb-4">
-                  Our journey began with a simple belief: every business deserves access to world-class 
-                  digital solutions that can propel them to new heights of success.
-                </p>
-                <p className="text-gray-300">
-                  Today, we're proud to have helped hundreds of businesses across various industries 
-                  achieve their digital goals through our comprehensive suite of services.
-                </p>
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Our Story</h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                From humble beginnings to becoming a trusted partner for businesses worldwide, 
+                our journey has been driven by innovation, excellence, and unwavering commitment to client success.
+              </p>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <FadeIn delay={0.1}>
+              <div className="dark-card p-6 rounded-2xl text-center dark-shadow">
+                <div className="text-4xl font-bold text-purple-400 mb-2">2020</div>
+                <h3 className="text-xl font-bold text-white mb-3">Founded</h3>
+                <p className="text-gray-300">Started with a vision to transform businesses through technology</p>
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <div className="light-gradient-bg-purple p-8 rounded-2xl border border-purple-100/50">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600 mb-2">500+</div>
-                    <div className="text-gray-300">Projects Delivered</div>
+              <div className="dark-card p-6 rounded-2xl text-center dark-shadow">
+                <div className="text-4xl font-bold text-purple-400 mb-2">100+</div>
+                <h3 className="text-xl font-bold text-white mb-3">Projects</h3>
+                <p className="text-gray-300">Successfully delivered projects across various industries</p>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600 mb-2">100+</div>
-                    <div className="text-gray-300">Happy Clients</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600 mb-2">5+</div>
-                    <div className="text-gray-300">Years Experience</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
-                    <div className="text-gray-300">Support</div>
-                  </div>
-                </div>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <div className="dark-card p-6 rounded-2xl text-center dark-shadow">
+                <div className="text-4xl font-bold text-purple-400 mb-2">98%</div>
+                <h3 className="text-xl font-bold text-white mb-3">Satisfaction</h3>
+                <p className="text-gray-300">Client satisfaction rate with our services and solutions</p>
               </div>
             </FadeIn>
           </div>
@@ -265,13 +178,13 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 light-gradient-bg">
+      <section className="py-20 bubble-gradient-bg-warm">
         <div className="container mx-auto px-6">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-400 mb-6">Our Values</h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                These core values guide everything we do and shape how we serve our clients.
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Our Values</h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                These core values guide everything we do and shape the way we work with our clients.
               </p>
             </div>
           </FadeIn>
@@ -279,11 +192,11 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <FadeIn key={value.title} delay={index * 0.1}>
-                <div className="light-gradient-card p-6 rounded-2xl text-center card-hover glass-effect bg-white/10 backdrop-blur-xl border border-white/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-105">
-                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="dark-card p-6 rounded-2xl text-center dark-shadow hover:dark-hover transition-all duration-300">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <value.icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-400 mb-3">{value.title}</h3>
+                  <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
                   <p className="text-gray-300">{value.description}</p>
                 </div>
               </FadeIn>
@@ -293,13 +206,13 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 light-gradient-bg-cool">
+      <section className="py-20">
         <div className="container mx-auto px-6">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-400 mb-6">Meet Our Team</h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Our talented team of experts is dedicated to delivering exceptional results for your business.
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Our Team</h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Meet the talented professionals who make Galaxy Software Hub a success.
               </p>
             </div>
           </FadeIn>
@@ -307,13 +220,13 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <FadeIn key={member.name} delay={index * 0.1}>
-                <div className="light-gradient-card p-6 rounded-2xl text-center card-hover glass-effect bg-white/10 backdrop-blur-xl border border-white/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transition-all duration-700 hover:scale-105">
-                  <div className="bg-gradient-to-r from-blue-500 to-purple-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="dark-card p-6 rounded-2xl text-center dark-shadow hover:dark-hover transition-all duration-300">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <member.icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-400 mb-2">{member.name}</h3>
-                  <p className="text-purple-600 font-semibold mb-3">{member.role}</p>
-                  <p className="text-gray-300 text-sm">{member.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{member.name}</h3>
+                  <p className="text-purple-400 font-semibold mb-4">{member.role}</p>
+                  <p className="text-gray-300">{member.description}</p>
                 </div>
               </FadeIn>
             ))}

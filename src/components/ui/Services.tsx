@@ -32,14 +32,14 @@ const services = [
 
 export default function Services() {
   return (
-    <section className="py-20 bubble-gradient-bg">
-      <div className="container mx-auto px-6">
+    <section className="py-20 bubble-gradient-bg overflow-x-hidden">
+      <div className="container mx-auto px-6 overflow-x-hidden">
         <FadeIn>
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white-800 mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Our Services
             </h2>
-            <p className="text-xl text-white-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               We provide comprehensive digital solutions to help your business thrive in the digital age.
             </p>
           </div>
@@ -48,20 +48,26 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <FadeIn key={service.title} delay={index * 0.1}>
-              <div className="light-gradient-card p-8 rounded-2xl card-hover">
+              <div className="dark-card p-8 rounded-2xl dark-shadow hover:dark-hover transition-all duration-300">
                 <div className="bg-gradient-to-r from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                   <service.icon className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white-800 mb-4">{service.title}</h3>
-                <p className="text-white-600 mb-6">{service.description}</p>
-                <ul className="space-y-2">
+                <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
+                <p className="text-gray-300 mb-6">{service.description}</p>
+                <ul className="space-y-2 mb-6">
                   {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-gray-200">
+                    <li key={feature} className="flex items-center text-gray-300">
                       <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
                       {feature}
                     </li>
                   ))}
                 </ul>
+                <a 
+                  href={`/quote?service=${service.title.toLowerCase().replace(' ', '-')}`}
+                  className="inline-block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-center"
+                >
+                  Get Quote
+                </a>
               </div>
             </FadeIn>
           ))}

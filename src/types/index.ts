@@ -5,6 +5,7 @@ export interface Blog {
     excerpt: string;
     slug: string;
     author: string;
+    image?: string; // URL of the blog image
     createdAt: string;
     updatedAt: string;
     published: boolean;
