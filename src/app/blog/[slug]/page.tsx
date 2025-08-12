@@ -70,7 +70,7 @@ export default function BlogPost({ params }: BlogPostProps) {
     "@type": "BlogPosting",
     "headline": blog.title,
     "description": blog.excerpt,
-    "image": blog.image,
+    "image": blog.image ?? "",
     "author": {
       "@type": "Person",
       "name": blog.author,

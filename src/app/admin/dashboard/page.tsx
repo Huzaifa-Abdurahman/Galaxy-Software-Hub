@@ -91,7 +91,7 @@ export default function AdminDashboard() {
       excerpt: blog.excerpt,
       slug: blog.slug,
       author: blog.author,
-      image: blog.image,
+      image: blog.image ?? '',
       published: blog.published
     });
     setFormImageError(false);
