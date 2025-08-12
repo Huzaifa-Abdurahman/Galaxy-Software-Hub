@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="/public/images/Logo.png" 
+                src="/images/Logo.png" 
                 alt="Galaxy Software Hub Logo" 
                 className="h-8 w-auto"
               />
