@@ -22,7 +22,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
             <img 
-              src="/images/Logo.png" 
+              src="/public/images/Logo.png" 
               alt="Galaxy Software Hub Logo" 
               className="h-10 w-auto"
             />
