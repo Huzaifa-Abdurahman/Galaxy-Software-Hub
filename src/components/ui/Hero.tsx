@@ -3,7 +3,7 @@
 import { ArrowRight, Star, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import FadeIn from '../animations/FadeIn';
-
+import Link from 'next/link';
 // Custom hook for counting animation
 function useCountAnimation(end: number, duration: number = 2000, delay: number = 0) {
   const [count, setCount] = useState(0);
