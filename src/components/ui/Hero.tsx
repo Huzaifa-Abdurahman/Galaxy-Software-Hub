@@ -96,7 +96,7 @@ export default function Hero() {
 
         <FadeIn delay={0.6}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-           <Link href="/shedule"> <button className="group bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-purple-50 transition-all duration-300 flex items-center space-x-2 card-hover">
+           <Link href="/contact"> <button className="group bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-purple-50 transition-all duration-300 flex items-center space-x-2 card-hover">
               <span>Get Started</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button></Link>
